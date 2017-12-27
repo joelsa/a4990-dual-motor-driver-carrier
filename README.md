@@ -1,4 +1,4 @@
-d # Arduino library for the Pololu A4990 Dual Motor Driver Carrier
+# Arduino library for the Pololu A4990 Dual Motor Driver Carrier
 
 Version: 1.0.0 <br>
 Release date: 2017-12-27 <br>
