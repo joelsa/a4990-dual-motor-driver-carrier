@@ -103,7 +103,7 @@ void A4990DualMotorDriverCarrier::encoderIntM1() {
 }
 
 void A4990DualMotorDriverCarrier::encoderIntM2() {
-  if (digitalRead(ENCDIR1) == HIGH)
+  if (digitalRead(ENCDIR2) == HIGH)
     A4990DualMotorDriverCarrier::encoderM2Count--;
   else
     A4990DualMotorDriverCarrier::encoderM2Count++;
@@ -119,7 +119,7 @@ void A4990DualMotorDriverCarrier::initInterruptPins()
   pinMode(ENCDIR1, INPUT);  
   attachInterrupt(ENCINT1, encoderIntM1, RISING); 
   pinMode(ENCINT2, INPUT);  
-  pinMode(ENCDIR1, INPUT); 
+  pinMode(ENCDIR2, INPUT); 
   attachInterrupt(ENCINT2, encoderIntM2, RISING); 
 }
 
