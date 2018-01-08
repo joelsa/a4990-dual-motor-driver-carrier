@@ -1,4 +1,4 @@
-#include <4990DualMotorDriverCarrier.h>
+#include <A4990DualMotorDriverCarrier.h>
 boolean A4990DualMotorDriverCarrier::flipM1 = false;
 boolean A4990DualMotorDriverCarrier::flipM2 = false;
 
@@ -143,7 +143,7 @@ void A4990DualMotorDriverCarrier::setSleep(boolean sleep)
 {
   // Put to sleep or wake up
   if (sleepControlEnabled == true) {
-    digitalWrite(INH, sleep);
+    digitalWrite(INH, !sleep);
   }
 }
 
