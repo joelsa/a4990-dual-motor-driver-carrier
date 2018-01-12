@@ -95,7 +95,7 @@ void A4990DualMotorDriverCarrier::initPinsAndTimer()
 
 
 void A4990DualMotorDriverCarrier::encoderIntM1() {
-  if (digitalRead(ENCDIR1) == HIGH)
+  if (digitalRead(ENCDIR1) == HIGH ^ flipM1)
     A4990DualMotorDriverCarrier::encoderM1Count--;
   else
     A4990DualMotorDriverCarrier::encoderM1Count++;
@@ -103,7 +103,7 @@ void A4990DualMotorDriverCarrier::encoderIntM1() {
 }
 
 void A4990DualMotorDriverCarrier::encoderIntM2() {
-  if (digitalRead(ENCDIR2) == HIGH)
+  if (digitalRead(ENCDIR2) == HIGH ^ flipM2)
     A4990DualMotorDriverCarrier::encoderM2Count--;
   else
     A4990DualMotorDriverCarrier::encoderM2Count++;
