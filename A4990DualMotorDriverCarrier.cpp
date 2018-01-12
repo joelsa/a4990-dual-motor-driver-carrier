@@ -236,7 +236,7 @@ void A4990DualMotorDriverCarrier::resetM1Rotation() {
 }
 
 void A4990DualMotorDriverCarrier::resetM2Rotation() {
-  A4990DualMotorDriverCarrier::encoderM1Count = 0;
+  A4990DualMotorDriverCarrier::encoderM2Count = 0;
 }
 
 void A4990DualMotorDriverCarrier::resetRotations() {
