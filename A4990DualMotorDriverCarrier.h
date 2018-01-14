@@ -35,6 +35,7 @@ class A4990DualMotorDriverCarrier
 
     static boolean changeFlagM1;
     static boolean changeFlagM2;
+    static boolean changeFlag;
     
   private:
     static void initPinsAndTimer();

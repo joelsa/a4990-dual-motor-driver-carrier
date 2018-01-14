@@ -96,18 +96,20 @@ void A4990DualMotorDriverCarrier::initPinsAndTimer()
 
 void A4990DualMotorDriverCarrier::encoderIntM1() {
   if (digitalRead(ENCDIR1) == HIGH ^ flipM1)
-    A4990DualMotorDriverCarrier::encoderM1Count--;
-  else
     A4990DualMotorDriverCarrier::encoderM1Count++;
+  else
+    A4990DualMotorDriverCarrier::encoderM1Count--;
   A4990DualMotorDriverCarrier::changeFlagM1 = true;
+  A4990DualMotorDriverCarrier::changeFlag = true;
 }
 
 void A4990DualMotorDriverCarrier::encoderIntM2() {
   if (digitalRead(ENCDIR2) == HIGH ^ flipM2)
-    A4990DualMotorDriverCarrier::encoderM2Count--;
-  else
     A4990DualMotorDriverCarrier::encoderM2Count++;
+  else
+    A4990DualMotorDriverCarrier::encoderM2Count--;
   A4990DualMotorDriverCarrier::changeFlagM2 = true;
+  A4990DualMotorDriverCarrier::changeFlag = true;
 }
 
 void A4990DualMotorDriverCarrier::initInterruptPins()
@@ -162,7 +164,7 @@ void A4990DualMotorDriverCarrier::setM1Speed(int turnSpeed)
   if (turnSpeed > MAXSPEED)  // max PWM duty cycle
     turnSpeed = MAXSPEED;
     
-  if (reverse ^ flipM2) {
+  if (reverse ^ flipM1) {
     // Clockwise
     digitalWrite(M1IN2, LOW);  
     analogWrite(M1IN1, MAXSPEED-turnSpeed); // use analogWrite from 0 to 255
