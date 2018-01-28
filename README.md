@@ -1,7 +1,7 @@
 # Arduino library for the Pololu A4990 Dual Motor Driver Carrier
 
-Version: 1.0.0 <br>
-Release date: 2017-12-27 <br>
+Version: 1.1.001 <br>
+Release date: 2018-01-28 <br>
 
 ## Summary
 
@@ -97,8 +97,23 @@ in the demo file (and then save it in your sketch folder).
   one of the error flag outputs.
 - `int determineFault()` Get the exact fault that is preventing the motor from
   turning, if it is an error happening on the controller-side.
+  
+ The error codes are as following:
+ 
+ | 	Error Code 	|     	Meaning    		|
+ | ----------------------	| :----------------------------:	| 
+ |		0		|  	Overvolt/temp	|
+ |		1		|	Open Load		|
+ |		2		|	Overcurrent		|
+ |		3		|	No Fault			|
+ 
+ A function:
+ 
+- `string errorToString(int errorCode)` is included for convenience sake. You can then easily print this string using Serial.print() or your favourite method of output.
 - `void stopIfFault()` Set motor speeds to 0 if an error is occuring.
 
 ## Version history
 
-* 1.0.0 (2017-12-27): Original release.
+* 1.0.001 (2017-12-27): Original release.
+* 1.1.001 (2018-01-28): errorToString is included, minor bugfixes, updated documentation
+

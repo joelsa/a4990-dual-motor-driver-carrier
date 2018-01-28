@@ -62,8 +62,17 @@ void A4990DualMotorDriverCarrier::enableSleepControl(int inh) {
   init(); // initialize if necessary
 }
 
-void A4990DualMotorDriverCarrier::initPinsAndTimer()
-{
+string A4990DualMotorDriverCarrier::errorToString(int errorCode) {
+	switch(errorCode) {
+		case A4990DualMotorDriverCarrier::OVER_VOLT_TEMP : return "OVER_VOLT_TEMP";
+		case A4990DualMotorDriverCarrier::OPENLOAD : return "OPENLOAD";
+		case A4990DualMotorDriverCarrier::OVERCURRENT : return "OVERCURRENT";
+		case A4990DualMotorDriverCarrier::NOFAULT : return "NOFAULT";
+	}
+	return "";
+}
+
+void A4990DualMotorDriverCarrier::initPinsAndTimer() {
   // Initialize the pin states used by the motor driver carrier
   // digitalWrite is called before and after setting pinMode.
   // It called before pinMode to handle the case where the board
@@ -112,8 +121,7 @@ void A4990DualMotorDriverCarrier::encoderIntM2() {
   A4990DualMotorDriverCarrier::changeFlag = true;
 }
 
-void A4990DualMotorDriverCarrier::initInterruptPins()
-{
+void A4990DualMotorDriverCarrier::initInterruptPins() {
   // Initialize the pin states used by the encoder
   // and attach interrupts
 
@@ -125,24 +133,21 @@ void A4990DualMotorDriverCarrier::initInterruptPins()
   attachInterrupt(ENCINT2, encoderIntM2, RISING); 
 }
 
-void A4990DualMotorDriverCarrier::initErrorPins()
-{
+void A4990DualMotorDriverCarrier::initErrorPins() {
   // Initialize the pin states used by the error handler
 
   pinMode(EF1, INPUT_PULLUP);  
   pinMode(EF2, INPUT_PULLUP);  
 }
 
-void A4990DualMotorDriverCarrier::initSleepPins()
-{
+void A4990DualMotorDriverCarrier::initSleepPins() {
   // Initialize the pin state used by the inhibit pin
 
   pinMode(INH, OUTPUT);
   digitalWrite(INH, HIGH);
 }
 
-void A4990DualMotorDriverCarrier::setSleep(boolean sleep)
-{
+void A4990DualMotorDriverCarrier::setSleep(boolean sleep) {
   // Put to sleep or wake up
   if (sleepControlEnabled == true) {
     digitalWrite(INH, !sleep);
@@ -150,8 +155,7 @@ void A4990DualMotorDriverCarrier::setSleep(boolean sleep)
 }
 
 // speed should be a number between -255 and 255
-void A4990DualMotorDriverCarrier::setM1Speed(int turnSpeed)
-{
+void A4990DualMotorDriverCarrier::setM1Speed(int turnSpeed) {
   init(); // initialize if necessary
     
   boolean reverse = 0;
@@ -175,9 +179,8 @@ void A4990DualMotorDriverCarrier::setM1Speed(int turnSpeed)
   }
 }
 
-// speed should be a number between -400 and 400
-void A4990DualMotorDriverCarrier::setM2Speed(int turnSpeed)
-{
+// speed should be a number between -255 and 255
+void A4990DualMotorDriverCarrier::setM2Speed(int turnSpeed) {
   init(); // initialize if necessary
     
   boolean reverse = 0;
@@ -203,30 +206,27 @@ void A4990DualMotorDriverCarrier::setM2Speed(int turnSpeed)
 
 // set speed for both motors
 // speed should be a number between -255 and 255
-void A4990DualMotorDriverCarrier::setSpeeds(int m1Speed, int m2Speed)
-{
+void A4990DualMotorDriverCarrier::setSpeeds(int m1Speed, int m2Speed) {
   setM1Speed(m1Speed);
   setM2Speed(m2Speed);
 }
 
-void A4990DualMotorDriverCarrier::setFlipM1(boolean flip)
-{
+void A4990DualMotorDriverCarrier::setFlipM1(boolean flip) {
   A4990DualMotorDriverCarrier::flipM1 = flip;
 }
 
-void A4990DualMotorDriverCarrier::setFlipM2(boolean flip)
-{
+void A4990DualMotorDriverCarrier::setFlipM2(boolean flip) {
   A4990DualMotorDriverCarrier::flipM2 = flip;
 }
 
-long A4990DualMotorDriverCarrier::readM1Rotation(){
+long A4990DualMotorDriverCarrier::readM1Rotation() {
   if (interruptsEnabled == true) {
     return encoderM1Count;    
   }
   return 0;
 }
 
-long A4990DualMotorDriverCarrier::readM2Rotation(){
+long A4990DualMotorDriverCarrier::readM2Rotation() {
   if (interruptsEnabled == true) {
     return encoderM2Count;    
   }
@@ -246,8 +246,7 @@ void A4990DualMotorDriverCarrier::resetRotations() {
   resetM2Rotation();
 }
 
-boolean A4990DualMotorDriverCarrier::getFault()
-{
+boolean A4990DualMotorDriverCarrier::getFault() {
   init(); // initialize if necessary
   if (errorsEnabled == true) {
     error = (digitalRead(EF1) == LOW || digitalRead(EF1) == LOW);
@@ -256,8 +255,7 @@ boolean A4990DualMotorDriverCarrier::getFault()
   return false;
 }
 
-unsigned int A4990DualMotorDriverCarrier::determineFault()
-{
+unsigned int A4990DualMotorDriverCarrier::determineFault() {
   init(); // initialize if necessary
   if (errorsEnabled == true) {
     errorType = (digitalRead(EF1) << 1) | (digitalRead(EF2));

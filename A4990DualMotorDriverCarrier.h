@@ -26,6 +26,7 @@ class A4990DualMotorDriverCarrier
     static void resetM1Rotation();
     static void resetM2Rotation();
     static void resetRotations();
+    static string errorToString(int errorCode); 
 
     //  static void synchronizeMotors(int speed);
 
@@ -73,29 +74,24 @@ class A4990DualMotorDriverCarrier
 
     const static int MAXSPEED;
 
-    static inline void init()
-    {
+    static inline void init() {
       static boolean initialized = false;
-      if (!initialized)
-      {
+      if (!initialized) {
         initPinsAndTimer();
         initialized = true;
       }
       static boolean interruptsInitialized = false;
-      if (!interruptsInitialized && interruptsEnabled)
-      {
+      if (!interruptsInitialized && interruptsEnabled) {
         initInterruptPins();
         interruptsInitialized = true;
       }
       static boolean errorsInitialized = false;
-      if (!errorsInitialized && errorsEnabled)
-      {
+      if (!errorsInitialized && errorsEnabled) {
         initErrorPins();
         errorsInitialized = true;
       }
       static boolean sleepControlInitialized = false;
-      if (!sleepControlInitialized && sleepControlEnabled)
-      {
+      if (!sleepControlInitialized && sleepControlEnabled) {
         initSleepPins();
         sleepControlInitialized = true;
       }
