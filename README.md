@@ -1,7 +1,7 @@
 # Arduino library for the Pololu A4990 Dual Motor Driver Carrier
 
 Version: 1.1.001 <br>
-Release date: 2018-01-28 <br>
+Release date: 2018-04-15 <br>
 
 ## Summary
 
@@ -109,11 +109,12 @@ in the demo file (and then save it in your sketch folder).
  
  A function:
  
-- `string errorToString(int errorCode)` is included for convenience sake. You can then easily print this string using Serial.print() or your favourite method of output.
+- `String errorToString(int errorCode)` is included for convenience sake. You can then easily print this string using Serial.print() or your favourite method of output.
 - `void stopIfFault()` Set motor speeds to 0 if an error is occuring.
 
 ## Version history
 
 * 1.0.001 (2017-12-27): Original release.
 * 1.1.001 (2018-01-28): errorToString is included, minor bugfixes, updated documentation
+* 1.1.002 (2018-04-15): fix compile error and encoder direction bug
 
