@@ -2,6 +2,7 @@
 #define A4990DualMotorDriverCarrier_h
 
 #include <Arduino.h>
+#include <WString.h>
 
 class A4990DualMotorDriverCarrier
 {
@@ -26,7 +27,7 @@ class A4990DualMotorDriverCarrier
     static void resetM1Rotation();
     static void resetM2Rotation();
     static void resetRotations();
-    static string errorToString(int errorCode); 
+    static String errorToString(int errorCode);
 
     //  static void synchronizeMotors(int speed);
 
@@ -37,7 +38,7 @@ class A4990DualMotorDriverCarrier
     static boolean changeFlagM1;
     static boolean changeFlagM2;
     static boolean changeFlag;
-    
+
   private:
     static void initPinsAndTimer();
     static void initInterruptPins();

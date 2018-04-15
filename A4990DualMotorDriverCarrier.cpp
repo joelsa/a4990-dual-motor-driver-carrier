@@ -1,9 +1,12 @@
 #include <A4990DualMotorDriverCarrier.h>
+#include <WString.h>
 boolean A4990DualMotorDriverCarrier::flipM1 = false;
 boolean A4990DualMotorDriverCarrier::flipM2 = false;
 
 boolean A4990DualMotorDriverCarrier::changeFlagM1 = false;
 boolean A4990DualMotorDriverCarrier::changeFlagM2 = false;
+boolean A4990DualMotorDriverCarrier::changeFlag = false;
+
 
 unsigned char A4990DualMotorDriverCarrier::M1IN1;
 unsigned char A4990DualMotorDriverCarrier::M1IN2;
@@ -62,7 +65,7 @@ void A4990DualMotorDriverCarrier::enableSleepControl(int inh) {
   init(); // initialize if necessary
 }
 
-string A4990DualMotorDriverCarrier::errorToString(int errorCode) {
+String A4990DualMotorDriverCarrier::errorToString(int errorCode) {
 	switch(errorCode) {
 		case A4990DualMotorDriverCarrier::OVER_VOLT_TEMP : return "OVER_VOLT_TEMP";
 		case A4990DualMotorDriverCarrier::OPENLOAD : return "OPENLOAD";
@@ -76,9 +79,9 @@ void A4990DualMotorDriverCarrier::initPinsAndTimer() {
   // Initialize the pin states used by the motor driver carrier
   // digitalWrite is called before and after setting pinMode.
   // It called before pinMode to handle the case where the board
-  // is using an ATmega AVR to avoid ever driving the pin high, 
+  // is using an ATmega AVR to avoid ever driving the pin high,
   // even for a short time.
-  // 
+  //
   // It is called after pinMode to handle the case where the board
   // is based on the Atmel SAM3X8E ARM Cortex-M3 CPU, like the Arduino
   // Due. This is necessary because when pinMode is called for the Due
@@ -104,7 +107,7 @@ void A4990DualMotorDriverCarrier::initPinsAndTimer() {
 
 
 void A4990DualMotorDriverCarrier::encoderIntM1() {
-  if (digitalRead(ENCDIR1) == HIGH ^ flipM1)
+  if (digitalRead(ENCDIR1) == LOW ^ flipM1)
     A4990DualMotorDriverCarrier::encoderM1Count++;
   else
     A4990DualMotorDriverCarrier::encoderM1Count--;
@@ -113,7 +116,7 @@ void A4990DualMotorDriverCarrier::encoderIntM1() {
 }
 
 void A4990DualMotorDriverCarrier::encoderIntM2() {
-  if (digitalRead(ENCDIR2) == HIGH ^ flipM2)
+  if (digitalRead(ENCDIR2) == LOW ^ flipM2)
     A4990DualMotorDriverCarrier::encoderM2Count++;
   else
     A4990DualMotorDriverCarrier::encoderM2Count--;
@@ -125,19 +128,19 @@ void A4990DualMotorDriverCarrier::initInterruptPins() {
   // Initialize the pin states used by the encoder
   // and attach interrupts
 
-  pinMode(ENCINT1, INPUT);  
-  pinMode(ENCDIR1, INPUT);  
-  attachInterrupt(ENCINT1, encoderIntM1, RISING); 
-  pinMode(ENCINT2, INPUT);  
-  pinMode(ENCDIR2, INPUT); 
-  attachInterrupt(ENCINT2, encoderIntM2, RISING); 
+  pinMode(ENCINT1, INPUT);
+  pinMode(ENCDIR1, INPUT);
+  attachInterrupt(ENCINT1, encoderIntM1, RISING);
+  pinMode(ENCINT2, INPUT);
+  pinMode(ENCDIR2, INPUT);
+  attachInterrupt(ENCINT2, encoderIntM2, RISING);
 }
 
 void A4990DualMotorDriverCarrier::initErrorPins() {
   // Initialize the pin states used by the error handler
 
-  pinMode(EF1, INPUT_PULLUP);  
-  pinMode(EF2, INPUT_PULLUP);  
+  pinMode(EF1, INPUT_PULLUP);
+  pinMode(EF2, INPUT_PULLUP);
 }
 
 void A4990DualMotorDriverCarrier::initSleepPins() {
@@ -157,9 +160,9 @@ void A4990DualMotorDriverCarrier::setSleep(boolean sleep) {
 // speed should be a number between -255 and 255
 void A4990DualMotorDriverCarrier::setM1Speed(int turnSpeed) {
   init(); // initialize if necessary
-    
+
   boolean reverse = 0;
-  
+
   if (turnSpeed < 0)
   {
     turnSpeed = -turnSpeed; // make speed a positive quantity
@@ -167,10 +170,10 @@ void A4990DualMotorDriverCarrier::setM1Speed(int turnSpeed) {
   }
   if (turnSpeed > MAXSPEED)  // max PWM duty cycle
     turnSpeed = MAXSPEED;
-    
+
   if (reverse ^ flipM1) {
     // Clockwise
-    digitalWrite(M1IN2, LOW);  
+    digitalWrite(M1IN2, LOW);
     analogWrite(M1IN1, MAXSPEED-turnSpeed); // use analogWrite from 0 to 255
   } else {
     // Counterclockwise
@@ -182,9 +185,9 @@ void A4990DualMotorDriverCarrier::setM1Speed(int turnSpeed) {
 // speed should be a number between -255 and 255
 void A4990DualMotorDriverCarrier::setM2Speed(int turnSpeed) {
   init(); // initialize if necessary
-    
+
   boolean reverse = 0;
-  
+
   if (turnSpeed < 0)
   {
     turnSpeed = -turnSpeed;  // make speed a positive quantity
@@ -195,7 +198,7 @@ void A4990DualMotorDriverCarrier::setM2Speed(int turnSpeed) {
 
   if (reverse ^ flipM2) {
     // Clockwise
-    digitalWrite(M2IN4, LOW);  
+    digitalWrite(M2IN4, LOW);
     analogWrite(M2IN3, MAXSPEED-turnSpeed); // use analogWrite from 0 to 255
   } else {
     // Counterclockwise
@@ -221,14 +224,14 @@ void A4990DualMotorDriverCarrier::setFlipM2(boolean flip) {
 
 long A4990DualMotorDriverCarrier::readM1Rotation() {
   if (interruptsEnabled == true) {
-    return encoderM1Count;    
+    return encoderM1Count;
   }
   return 0;
 }
 
 long A4990DualMotorDriverCarrier::readM2Rotation() {
   if (interruptsEnabled == true) {
-    return encoderM2Count;    
+    return encoderM2Count;
   }
   return 0;
 }
@@ -260,7 +263,7 @@ unsigned int A4990DualMotorDriverCarrier::determineFault() {
   if (errorsEnabled == true) {
     errorType = (digitalRead(EF1) << 1) | (digitalRead(EF2));
     return errorType;
-  } 
+  }
   return A4990DualMotorDriverCarrier::NOFAULT;
 }
 
