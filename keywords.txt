@@ -1,9 +1,9 @@
-A4990DualMotorDriverCarrier KEYWORD1
+A4990DualMotorDriverCarrier	KEYWORD1
 
-flipM1 KEYWORD2
-flipM2 KEYWORD2
-setM1Speed KEYWORD2
-setM2Speed KEYWORD2
-setSpeeds KEYWORD2
-getFault KEYWORD2
-errorHandling KEYWORD2
+flipM1	KEYWORD2
+flipM2	KEYWORD2
+setM1Speed	KEYWORD2
+setM2Speed	KEYWORD2
+setSpeeds	KEYWORD2
+getFault	KEYWORD2
+errorHandling	KEYWORD2
