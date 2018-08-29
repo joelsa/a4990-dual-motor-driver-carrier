@@ -1,7 +1,7 @@
 # Arduino library for the Pololu A4990 Dual Motor Driver Carrier
 
-Version: 1.1.001 <br>
-Release date: 2018-04-15 <br>
+Version: 1.1.003 <br>
+Release date: 2018-08-29 <br>
 
 ## Summary
 
@@ -38,8 +38,8 @@ You can manually install this library:
 3. Drag the "A4990DualMotorDriverCarrier" folder into the "libraries" directory inside your
    Arduino sketchbook directory. You can view your sketchbook location by
    opening the "File" menu and selecting "Preferences" in the Arduino IDE. If
-   there is not already a "libraries" folder in that location, you should make
-   the folder yourself.
+   there is not already a "libraries" folder in that location, you should create
+   the folder by yourself.
 4. After installing the library, restart the Arduino IDE.
 
 ## Example program
